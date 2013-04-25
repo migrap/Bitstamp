@@ -1,22 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Sandbox/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Bitstamp/Models/OrderBook.cs">
     <Files>
-      <File FileName="Bitstamp/BitstampClient.Ticker.cs" Line="6" Column="27" />
-      <File FileName="Sandbox/Program.cs" Line="13" Column="1" />
       <File FileName="Bitstamp/BitstampClient.cs" Line="44" Column="71" />
-      <File FileName="Bitstamp/Net/Http/Formatting/BitstampMediaTypeFormatter.cs" Line="22" Column="1" />
-      <File FileName="Bitstamp/Net/Http/Formatting/StringToDoubleConverter.cs" Line="11" Column="1" />
-      <File FileName="Bitstamp/Models/Ticker.cs" Line="6" Column="31" />
+      <File FileName="Bitstamp/Net/Http/Formatting/BitstampMediaTypeFormatter.cs" Line="14" Column="1" />
+      <File FileName="Bitstamp/Net/Http/Formatting/StringToDoubleConverter.cs" Line="10" Column="1" />
+      <File FileName="Bitstamp/Models/Ticker.cs" Line="6" Column="9" />
+      <File FileName="Bitstamp/Models/OrderBook.cs" Line="27" Column="7" />
+      <File FileName="Bitstamp/BitstampClient.OrderBook.cs" Line="6" Column="30" />
+      <File FileName="Sandbox/Program.cs" Line="10" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/Michael/Projects/Bitstamp/src/Bitstamp/Sandbox/Program.cs" line="12" column="1" />
-      <Breakpoint file="/Users/Michael/Projects/Bitstamp/src/Bitstamp/Bitstamp/Net/Http/Formatting/StringToDoubleConverter.cs" line="14" column="1" />
-      <Breakpoint file="/Users/Michael/Projects/Bitstamp/src/Bitstamp/Bitstamp/Net/Http/Formatting/BitstampMediaTypeFormatter.cs" line="14" column="1" />
-      <Breakpoint file="/Users/Michael/Projects/Bitstamp/src/Bitstamp/Bitstamp/Net/Http/Formatting/BitstampMediaTypeFormatter.cs" line="18" column="1" />
-      <Breakpoint file="/Users/Michael/Projects/Bitstamp/src/Bitstamp/Bitstamp/Net/Http/Formatting/StringToDoubleConverter.cs" line="10" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

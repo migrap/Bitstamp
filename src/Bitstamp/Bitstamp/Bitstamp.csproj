@@ -58,6 +58,8 @@
     <Compile Include="Models\Ticker.cs" />
     <Compile Include="BitstampClient.Ticker.cs" />
     <Compile Include="Net\Http\Formatting\StringToDoubleConverter.cs" />
+    <Compile Include="Models\OrderBook.cs" />
+    <Compile Include="BitstampClient.OrderBook.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
