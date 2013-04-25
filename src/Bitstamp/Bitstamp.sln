@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bitstamp", "Bitstamp\Bitstamp.csproj", "{8876EFDA-33FC-4F67-80E0-0745A1A78088}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8876EFDA-33FC-4F67-80E0-0745A1A78088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8876EFDA-33FC-4F67-80E0-0745A1A78088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8876EFDA-33FC-4F67-80E0-0745A1A78088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8876EFDA-33FC-4F67-80E0-0745A1A78088}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Sandbox\Sandbox.csproj
+	EndGlobalSection
+EndGlobal
