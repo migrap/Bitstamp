@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace Bitstamp {
 	public class OrderBook {
@@ -13,20 +14,13 @@ namespace Bitstamp {
 		public Levels Bids{get;set;}
 		public Levels Asks{get;set;}
 	}
-#if MGP_LATER
-	public class Level {
-		//[JsonConverter(typeof(StringToDoubleConverter))]
-		public string Price{get;set;}
 
-		//[JsonConverter(typeof(StringToDoubleConverter))]
-		public string Volume{get;set;}
+	[DebuggerDisplay("Price = {Price}\tVolume = {Volume}")]
+	public class Level {
+		public double Price{get;set;}
+		public double Volume{get;set;}
 	}
-#else
-	public class Level:List<string>{
-	}
-#endif
 
 	public class Levels:List<Level>{
 	}
 }
-
