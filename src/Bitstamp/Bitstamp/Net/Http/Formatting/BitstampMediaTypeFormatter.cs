@@ -4,10 +4,11 @@ using System.Net.Http;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Bitstamp {
+namespace Bitstamp.Net.Http.Formatting {
 	internal class BitstampMediaTypeFormatter : JsonMediaTypeFormatter {
 		public BitstampMediaTypeFormatter() {
-			SerializerSettings.Converters.Add(new StringToDoubleConverter());
+            SerializerSettings.Converters.Add(new StringToDoubleConverter());
+            SerializerSettings.Converters.Add(new StringToDateTimeOffsetConverter());
 		}
 
 		public override bool CanReadType(Type type) {

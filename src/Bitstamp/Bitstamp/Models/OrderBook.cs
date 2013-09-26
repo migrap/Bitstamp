@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 
-namespace Bitstamp {
+namespace Bitstamp.Models {
 	public class OrderBook {
 		public OrderBook(){
 			Bids = new Levels ();

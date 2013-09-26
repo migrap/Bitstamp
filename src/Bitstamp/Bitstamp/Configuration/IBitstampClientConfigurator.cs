@@ -7,7 +7,7 @@ namespace Bitstamp {
 		void Port(int value);
 		void Path(string value);
 		void Key(string value);
-		void Secret(string value);
+		void Secret(string value);        
 	}
 }
 

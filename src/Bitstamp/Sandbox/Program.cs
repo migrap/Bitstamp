@@ -2,44 +2,16 @@ using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using SocketIOClient;
-using PusherClient;
+using Bitstamp;
 
 namespace Sandbox {
-	class MainClass {
-		public static void Main (string[] args) {
-            var pusher = new Pusher("de504dc5763aeef9ff52");
-            var channel = (Channel)null;
-            pusher.Connected += (s) => {
-                Console.WriteLine("Connected");
-                channel = pusher.Subscribe("live_orders");
-                channel.Subscribed += channel_Subscribed;
-                
-            };
-            pusher.ConnectionStateChanged += (s, cs) => Console.WriteLine(cs);
+    class MainClass {
+        public static void Main(string[] args) {
+            var bitstamp = new BitstampClient();
+            bitstamp.TradeOccured += (s, t) => Console.WriteLine(t);
 
-            pusher.Connect();
-
+            bitstamp.ConnectAsync().Wait();
             Console.ReadLine();
-
-			(new AutoResetEvent (false)).WaitOne();
-		}
-
-        static void channel_Subscribed(object sender) {
-            var channel = sender as Channel;
-            channel.Bind("order_changed", (d) => {
-                Console.WriteLine("order_changed: {0}", d.ToString());
-            });
         }
-	}
+    }
 }
-
-//var pusher = new Pusher('de504dc5763aeef9ff52');
-//var channel = pusher.subscribe('live_orders');
-//channel.bind('order_deleted', add_to_ws_queue);
-//channel.bind('order_created', add_to_ws_queue);
-//channel.bind('order_changed', add_to_ws_queue);

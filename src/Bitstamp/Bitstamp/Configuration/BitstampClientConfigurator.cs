@@ -8,7 +8,7 @@ namespace Bitstamp {
 		private int _port = 443;
 		private string _path = "api";
 		private string _key;
-		private string _secret;
+		private string _secret;        
 
 		public void Scheme(string value) {
 			_scheme = value;
@@ -32,11 +32,12 @@ namespace Bitstamp {
 
 		public void Secret(string value) {
 			_secret = value;
-		}
+		}        
 
 		public BitstampClient Build() {
 			return new BitstampClient(_scheme, _host, _port, _path, _key, _secret);
 		}
+
 	}
 }
 

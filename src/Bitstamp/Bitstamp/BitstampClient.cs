@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Security;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Bitstamp.Net.Http.Formatting;
 
 namespace Bitstamp {
 	public partial class BitstampClient {

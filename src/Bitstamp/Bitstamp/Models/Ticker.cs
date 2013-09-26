@@ -1,7 +1,8 @@
 using System;
 using Newtonsoft.Json;
+using Bitstamp.Net.Http.Formatting;
 
-namespace Bitstamp {
+namespace Bitstamp.Models {
     public class Ticker {
         [JsonConverter(typeof(StringToDoubleConverter))]
         public double Bid { get; set; }

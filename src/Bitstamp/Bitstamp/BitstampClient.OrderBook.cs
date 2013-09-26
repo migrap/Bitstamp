@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Bitstamp.Models;
 
 namespace Bitstamp {
 	public partial class BitstampClient {
