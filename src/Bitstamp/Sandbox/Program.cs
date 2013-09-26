@@ -37,3 +37,9 @@ namespace Sandbox {
         }
 	}
 }
+
+//var pusher = new Pusher('de504dc5763aeef9ff52');
+//var channel = pusher.subscribe('live_orders');
+//channel.bind('order_deleted', add_to_ws_queue);
+//channel.bind('order_created', add_to_ws_queue);
+//channel.bind('order_changed', add_to_ws_queue);
