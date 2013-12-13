@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20623.1 VSUPREVIEW
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bitstamp", "Bitstamp\Bitstamp.csproj", "{8876EFDA-33FC-4F67-80E0-0745A1A78088}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F6E31952-E46D-49BD-B09D-434786323B8B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8876EFDA-33FC-4F67-80E0-0745A1A78088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8876EFDA-33FC-4F67-80E0-0745A1A78088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8876EFDA-33FC-4F67-80E0-0745A1A78088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8876EFDA-33FC-4F67-80E0-0745A1A78088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75825DD1-D0DA-4C19-BA52-B7E8939FFACB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Sandbox\Sandbox.csproj
+	EndGlobalSection
+EndGlobal
