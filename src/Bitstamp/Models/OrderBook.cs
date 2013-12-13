@@ -3,98 +3,123 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Text;
 
 namespace Bitstamp.Models {
-	public class OrderBook {
-		public OrderBook(){
-			Bids = new Levels ();
-			Asks = new Levels ();
-		}
+    public class OrderBook {
+        public OrderBook() {
+            Bids = new Levels();
+            Asks = new Levels();
+        }
 
-		public Levels Bids{get;set;}
-		public Levels Asks{get;set;}
-	}
+        public OrderBook(IEnumerable<Level> bids, IEnumerable<Level> asks) {
+            Bids = new Levels(bids);
+            Asks = new Levels(asks);
+        }
 
-	[DebuggerDisplay("Price = {Price}\tVolume = {Volume}")]
-	public class Level {
-		public double Price{get;set;}
-		public double Volume{get;set;}
-		public double Value{ get { return Price * Volume; } }
-		public Aggregate Aggregate{ get; set; }
-	}
+        public Levels Bids { get; set; }
+        public Levels Asks { get; set; }
 
-	public class Levels:ICollection<Level>{
-		private List<Level> _levels = new List<Level> ();
+        public override string ToString() {
+            var sb = new StringBuilder();
+            for(int i = 0; i < Math.Min(Bids.Count, Asks.Count); i++) {
+                sb.AppendFormat("{0,15:###0.00000000} {1,15:########0.00}", Bids[i].Volume, Bids[i].Price);
+                sb.Append(" | ");
+                sb.AppendFormat("{0,15:###0.00000000} {1,15:########0.00}", Asks[i].Volume, Asks[i].Price);
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+    }
 
-		public Level this[int index]{
-			get{ return _levels [index];}
-		}
+    [DebuggerDisplay("Price = {Price}\tVolume = {Volume}")]
+    public class Level {
+        public double Price { get; set; }
+        public double Volume { get; set; }
+        public double Value { get { return Price * Volume; } }
+        public Aggregate Aggregate { get; set; }
+    }
 
-		public void AddRange(IEnumerable<Level> collection){
-			foreach (var item in collection) {
-				Add (item);
-			}
-		}
+    public class Levels : ICollection<Level> {
+        private List<Level> _levels;
 
-		public void Add (Level item) {
-			item.Aggregate = item;
-			if (Count != 0) {
-				item.Aggregate += _levels [Count - 1].Aggregate;
-			}
-			_levels.Add (item);
-		}
+        public Levels() {
+            _levels = new List<Level>();
+        }
 
-		public void Clear () {
-			_levels.Clear ();
-		}
+        public Levels(IEnumerable<Level> collection) {
+            _levels = new List<Level>(collection);
+        }
 
-		public bool Contains (Level item) {
-			return _levels.Contains (item);
-		}
+        public Level this[int index] {
+            get { return _levels[index]; }
+        }
 
-		public void CopyTo (Level[] array, int arrayIndex) {
-			_levels.CopyTo (array, arrayIndex);
-		}
+        public void AddRange(IEnumerable<Level> collection) {
+            foreach(var item in collection) {
+                Add(item);
+            }
+        }
 
-		public bool Remove (Level item) {
-			return _levels.Remove (item);
-		}
+        public void Add(Level item) {
+            item.Aggregate = item;
+            if(Count != 0) {
+                item.Aggregate += _levels[Count - 1].Aggregate;
+            }
+            _levels.Add(item);
+        }
 
-		public int Count {
-			get{ return _levels.Count;}
-		}
+        public void Clear() {
+            _levels.Clear();
+        }
 
-		public bool IsReadOnly {
-			get{ return false;}
-		}
+        public bool Contains(Level item) {
+            return _levels.Contains(item);
+        }
 
-		public IEnumerator<Level> GetEnumerator () {
-			return _levels.GetEnumerator ();
-		}
+        public void CopyTo(Level[] array, int arrayIndex) {
+            _levels.CopyTo(array, arrayIndex);
+        }
 
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator () {
-			return _levels.GetEnumerator ();
-		}
-	}
+        public bool Remove(Level item) {
+            return _levels.Remove(item);
+        }
 
-	public class Aggregate{
-		public double Price{get;set;}
-		public double Volume{get;set;}
-		public double Value{ get; set; }
+        public int Count {
+            get { return _levels.Count; }
+        }
 
-		public static implicit operator Aggregate(Level value){
-			return new Aggregate {
-				Price=value.Price,
-				Volume=value.Volume,
-				Value=value.Value,
-			};
-		}
+        public bool IsReadOnly {
+            get { return false; }
+        }
 
-		public static Aggregate operator +(Aggregate lhs, Aggregate rhs){
-			lhs.Volume += rhs.Volume;
-			lhs.Value += rhs.Value;
-			lhs.Price = (lhs.Volume / lhs.Value);
-			return lhs;
-		}
-	}
+        public IEnumerator<Level> GetEnumerator() {
+            return _levels.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            return _levels.GetEnumerator();
+        }
+    }
+
+    public class Aggregate {
+        public double Price { get; set; }
+        public double Volume { get; set; }
+        public double Value { get; set; }
+
+        public static implicit operator Aggregate(Level value) {
+            return new Aggregate {
+                Price = value.Price,
+                Volume = value.Volume,
+                Value = value.Value,
+            };
+        }
+
+        public static Aggregate operator +(Aggregate lhs, Aggregate rhs) {
+            lhs.Volume += rhs.Volume;
+            lhs.Value += rhs.Value;
+            lhs.Price = (lhs.Volume / lhs.Value);
+            return lhs;
+        }
+    }
 }

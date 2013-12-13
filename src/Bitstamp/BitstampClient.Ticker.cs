@@ -11,7 +11,7 @@ namespace Bitstamp {
 					.GetResult()
 					.Content.ReadAsAsync<Ticker>(_formatter)
 					.ConfigureAwait(false);
-		}
+		}        
 	}
 }
 
