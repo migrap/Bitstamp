@@ -1,5 +1,5 @@
-using System;
 using Newtonsoft.Json;
+using System;
 
 namespace Bitstamp.Net.Http.Formatting {
 	public class StringToDoubleConverter :JsonConverter{

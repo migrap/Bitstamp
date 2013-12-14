@@ -1,4 +1,3 @@
-using System;
 
 namespace Bitstamp {
 	internal class BitstampClientConfigurator : IBitstampClientConfigurator {

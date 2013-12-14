@@ -1,6 +1,5 @@
-using System;
-using Newtonsoft.Json;
 using Bitstamp.Net.Http.Formatting;
+using Newtonsoft.Json;
 
 namespace Bitstamp.Models {
     public class Ticker {

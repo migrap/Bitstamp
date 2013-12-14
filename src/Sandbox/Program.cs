@@ -1,11 +1,5 @@
-using System;
-using System.Threading;
-using System.Collections.Generic;
-using System.Linq;
 using Bitstamp;
-using PusherClient;
-using System.Reactive.Linq;
-using Newtonsoft.Json;
+using System;
 
 namespace Sandbox {
     class MainClass {

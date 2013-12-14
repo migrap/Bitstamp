@@ -1,5 +1,4 @@
 using Bitstamp.Models;
-using System;
 using System.Threading.Tasks;
 
 namespace Bitstamp {

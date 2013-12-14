@@ -1,14 +1,14 @@
-using System;
-using System.Security;
-using System.Collections.Specialized;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Net.Http.Formatting;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Threading.Tasks;
 
 namespace Bitstamp {

@@ -1,7 +1,7 @@
 using System;
-using System.Net.Http.Formatting;
-using System.Net.Http;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 
 namespace Bitstamp.Net.Http.Formatting {
