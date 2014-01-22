@@ -21,8 +21,11 @@ namespace Bitstamp {
         private Subscription _orders = new Subscription();
         private Subscription _trades = new Subscription();
         private Subscription _depth = new Subscription();
+        private bool _connected = false;
+        private object _connectionLock = new object();
+        private object _connectionTarget;
 
-        public async Task<bool> ConnectAsync(string applicationkey = "de504dc5763aeef9ff52") {
+        private Task<bool> ConnectAsync(string applicationkey = "de504dc5763aeef9ff52") {
             var tcs = new TaskCompletionSource<bool>();
             _pusher = new Pusher(applicationkey);
 
@@ -55,7 +58,7 @@ namespace Bitstamp {
 
             _pusher.Connect();
 
-            return await tcs.Task;
+            return tcs.Task;
         }
 
         private void OnNext<T>(T value) {
@@ -63,6 +66,11 @@ namespace Bitstamp {
         }
         
         private IObservable<T> GetObservable<T>(string channel, Subscription subscription) {
+            LazyInitializer.EnsureInitialized(ref _connectionTarget, ref _connected, ref _connectionLock, () => {
+                _connected = ConnectAsync().Result;
+                return null;
+            });
+
             return (IObservable<T>)_messages.GetOrAdd(typeof(T), type => {
                 subscription.Channel = _pusher.Subscribe(channel);
                 subscription.Channel.Subscribed += subscription.Handler;
