@@ -86,41 +86,41 @@ namespace Bitstamp {
             return (IObservable<OrderBook>)GetObservable<OrderBook>("order_book", _depth);
         }
 
-        public IObservable<Ticker> GetTickerObservable() {
-            return (IObservable<Ticker>)_messages.GetOrAdd(typeof(Ticker), type => {
-                return Observable.Create<Ticker>(observer => {
-                    var ticker = GetTickeAsync().Result;
-                    var disposed = false;
-                    var gate = new AsyncLock();
-                    var cancel = new CancellationTokenSource();
+        //public IObservable<Ticker> GetTickerObservable() {
+        //    return (IObservable<Ticker>)_messages.GetOrAdd(typeof(Ticker), type => {
+        //        return Observable.Create<Ticker>(observer => {
+        //            var ticker = GetTickerAsync().Result;
+        //            var disposed = false;
+        //            var gate = new AsyncLock();
+        //            var cancel = new CancellationTokenSource();
 
 
-                    Observable.CombineLatest(GetTradesObservable(), GetOrderBookObservable(), (trade, book) => new { Trade = trade, OrderBook = book })
-                        .Subscribe(a => {
-                            var ask = a.OrderBook.Asks[0];
-                            var bid = a.OrderBook.Bids[0];
-                            var value = new Ticker {
-                                Ask = ask.Price,
-                                Bid = bid.Price,
-                                Last = a.Trade.Price,
-                                Volume = ticker.Volume += a.Trade.Amount,
-                                High = Math.Min(ticker.High, a.Trade.Price),
-                                Low = Math.Min(ticker.Low, a.Trade.Price),
-                            };
-                            ticker = value;
-                            observer.OnNext(value);
-                        });
+        //            Observable.CombineLatest(GetTradesObservable(), GetOrderBookObservable(), (trade, book) => new { Trade = trade, OrderBook = book })
+        //                .Subscribe(a => {
+        //                    var ask = a.OrderBook.Asks[0];
+        //                    var bid = a.OrderBook.Bids[0];
+        //                    var value = new Ticker {
+        //                        Ask = ask.Price,
+        //                        Bid = bid.Price,
+        //                        Last = a.Trade.Price,
+        //                        Volume = ticker.Volume += a.Trade.Amount,
+        //                        High = Math.Min(ticker.High, a.Trade.Price),
+        //                        Low = Math.Min(ticker.Low, a.Trade.Price),
+        //                    };
+        //                    ticker = value;
+        //                    observer.OnNext(value);
+        //                });
 
-                    observer.OnNext(ticker);
+        //            observer.OnNext(ticker);
 
-                    return new CompositeDisposable(Disposable.Create(() => gate.Wait(() => {
-                        cancel.Cancel();
-                    })), Disposable.Create(() => gate.Wait(() => {
-                        disposed = true;
-                    })));
-                });
-            });            
-        }
+        //            return new CompositeDisposable(Disposable.Create(() => gate.Wait(() => {
+        //                cancel.Cancel();
+        //            })), Disposable.Create(() => gate.Wait(() => {
+        //                disposed = true;
+        //            })));
+        //        });
+        //    });            
+        //}
     }    
 
     internal static partial class Extensions {
