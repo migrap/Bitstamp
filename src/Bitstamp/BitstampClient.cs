@@ -9,11 +9,34 @@ using System.Security;
 using System.Threading.Tasks;
 
 namespace Bitstamp {
-	public partial class BitstampClient {
+	public partial class BitstampClient : IDisposable {
 		private BitstampMediaTypeFormatter _formatter = new BitstampMediaTypeFormatter();
 		private HttpClient _client;
 		private SecureString _key;
 		private SecureString _secret;
+        private bool _disposed = false;
+
+        ~BitstampClient() {
+            Dispose(false);
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing) {
+            if(!_disposed) {
+                if(disposing) {
+                    if(null != _client) {
+                        _client.Dispose();
+                    }                    
+                    _key.SafeDispose();
+                    _secret.SafeDispose();
+                }
+                _disposed = true;
+            }
+        }
 
 		static BitstampClient() {
 			ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, error) => true;
@@ -33,7 +56,7 @@ namespace Bitstamp {
 
 			_client = new HttpClient(handler);
 			_client.BaseAddress = builder.Uri;
-			//_client.DefaultRequestHeaders.Add("User-Agent", "{0} {1}".FormatWith(typeof(BitstampClient).Assembly.GetName().Name, typeof(BitstampClient).Assembly.GetName().Version.ToString(4)));
+            _client.DefaultRequestHeaders.Add("User-Agent", "{0} {1}".FormatWith(typeof(BitstampClient).Assembly.GetName().Name, typeof(BitstampClient).Assembly.GetInformationalVersion()));
 			
 
 			_key = key.GetSecureString();

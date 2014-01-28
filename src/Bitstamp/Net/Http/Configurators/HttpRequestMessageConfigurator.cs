@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bitstamp.Net.Http.Configurators {
+namespace Bitstamp.Net.Http.Configurators {    
     internal class HttpRequestMessageConfigurator : IHttpRequestMessageConfigurator {
         private HttpRequestMessage _request = new HttpRequestMessage();
 

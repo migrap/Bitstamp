@@ -30,8 +30,8 @@ namespace Bitstamp {
             _pusher = new Pusher(applicationkey);
 
             var connected = (ConnectedEventHandler)null;
-            
-            _orders.Handler  = (sender) => {
+
+            _orders.Handler = (sender) => {
                 _orders.Channel.Subscribed -= _orders.Handler;
                 //_orders.Channel.Bind("order_deleted", (d) => On(OrderDeleted, (d as JObject).AsOrder()));
                 //_orders.Channel.Bind("order_created", (d) => On(OrderCreated, (d as JObject).AsOrder()));
@@ -64,7 +64,7 @@ namespace Bitstamp {
         private void OnNext<T>(T value) {
             _observable.OnNext(value);
         }
-        
+
         private IObservable<T> GetObservable<T>(string channel, Subscription subscription) {
             LazyInitializer.EnsureInitialized(ref _connectionTarget, ref _connected, ref _connectionLock, () => {
                 _connected = ConnectAsync().Result;
@@ -86,78 +86,31 @@ namespace Bitstamp {
             return (IObservable<OrderBook>)GetObservable<OrderBook>("order_book", _depth);
         }
 
-        //public IObservable<Ticker> GetTickerObservable() {
-        //    return (IObservable<Ticker>)_messages.GetOrAdd(typeof(Ticker), type => {
-        //        return Observable.Create<Ticker>(observer => {
-        //            var ticker = GetTickerAsync().Result;
-        //            var disposed = false;
-        //            var gate = new AsyncLock();
-        //            var cancel = new CancellationTokenSource();
+        public IObservable<Ticker> GetTickerObservable() {
+            return (IObservable<Ticker>)_messages.GetOrAdd(typeof(Ticker), type => {
+                return Observable.Create<Ticker>(observer => {
+                    var ticker = GetTickerAsync().Result;                    
+                    var observable = Observable.CombineLatest(GetTradesObservable(), GetOrderBookObservable(), (trade, book) => new { Trade = trade, OrderBook = book })
+                        .Subscribe(a => {
+                            var ask = a.OrderBook.Asks[0];
+                            var bid = a.OrderBook.Bids[0];
+                            var value = new Ticker {
+                                Ask = ask.Price,
+                                Bid = bid.Price,
+                                Last = a.Trade.Price,
+                                Volume = ticker.Volume += a.Trade.Amount,
+                                High = Math.Min(ticker.High, a.Trade.Price),
+                                Low = Math.Min(ticker.Low, a.Trade.Price),
+                            };
+                            ticker = value;
+                            observer.OnNext(value);
+                        });
 
+                    observer.OnNext(ticker);
 
-        //            Observable.CombineLatest(GetTradesObservable(), GetOrderBookObservable(), (trade, book) => new { Trade = trade, OrderBook = book })
-        //                .Subscribe(a => {
-        //                    var ask = a.OrderBook.Asks[0];
-        //                    var bid = a.OrderBook.Bids[0];
-        //                    var value = new Ticker {
-        //                        Ask = ask.Price,
-        //                        Bid = bid.Price,
-        //                        Last = a.Trade.Price,
-        //                        Volume = ticker.Volume += a.Trade.Amount,
-        //                        High = Math.Min(ticker.High, a.Trade.Price),
-        //                        Low = Math.Min(ticker.Low, a.Trade.Price),
-        //                    };
-        //                    ticker = value;
-        //                    observer.OnNext(value);
-        //                });
-
-        //            observer.OnNext(ticker);
-
-        //            return new CompositeDisposable(Disposable.Create(() => gate.Wait(() => {
-        //                cancel.Cancel();
-        //            })), Disposable.Create(() => gate.Wait(() => {
-        //                disposed = true;
-        //            })));
-        //        });
-        //    });            
-        //}
-    }    
-
-    internal static partial class Extensions {
-        private static JsonSerializer _serializer = new JsonSerializer();
-        public static Order AsOrder(this JObject self) {
-            return self.As<Order>();
-        }
-
-        public static Trade AsTrade(this JObject self) {
-            return self.As<Trade>();
-        }
-
-        public static OrderBook AsOrderBook(this JObject self, int count=0) {
-            var result = new OrderBook();
-            result.Bids.AddRange(OrderBook(self, "bids", count));
-            result.Asks.AddRange(OrderBook(self, "asks", count));
-            return result;
-        }
-
-        private static IEnumerable<Level> OrderBook(JObject value, string name, int count) {
-            var array = value[name].OfType<JArray>();
-            array = (count == 0) ? array : array.Take(count);
-            return array.Select(Level);
-        }
-
-        private static Level Level(JArray value) {
-            var price = double.Parse(value[0].ToString());
-            var volume = double.Parse(value[1].ToString());
-
-            return new Level {
-                Price = price,
-                Volume = volume,
-            };
-        }
-
-        private static T As<T>(this JObject self) {
-            return (T)_serializer.Deserialize<T>(new JTokenReader(self));
+                    return observable;
+                });
+            });
         }
     }
 }

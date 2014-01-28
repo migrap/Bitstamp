@@ -1,5 +1,7 @@
+using Bitstamp.Models;
 using Bitstamp.Net.Http.Configurators;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -8,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading.Tasks;
@@ -182,12 +185,50 @@ namespace Bitstamp {
             return response.Content.ReadAsStringAsync();
         }
 
-        //internal static Task<T> ReadAsAsync<T>(this HttpResponseMessage message, MediaTypeFormatter formatter) {
-        //    return ReadAsAsync<T>(message.Content, formatter);
-        //}
+        internal static void SafeDispose(this IDisposable disposable) {
+            if(disposable != null) {
+                disposable.Dispose();
+            }
+        }
 
-        //internal static Task<T> ReadAsAsync<T>(this HttpContent content, MediaTypeFormatter formatter) {
-        //    return content.ReadAsAsync<T>(new[] { formatter });
-        //}
+        internal static string GetInformationalVersion(this Assembly assembly) {
+            var attribute = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            return (null != attribute) ? attribute.ToString() : string.Empty;
+        }
+
+        public static Order AsOrder(this JObject self) {
+            return self.As<Order>();
+        }
+
+        public static Trade AsTrade(this JObject self) {
+            return self.As<Trade>();
+        }
+
+        public static OrderBook AsOrderBook(this JObject self, int count = 0) {
+            var result = new OrderBook();
+            result.Bids.AddRange(OrderBook(self, "bids", count));
+            result.Asks.AddRange(OrderBook(self, "asks", count));
+            return result;
+        }
+
+        private static IEnumerable<Level> OrderBook(JObject value, string name, int count) {
+            var array = value[name].OfType<JArray>();
+            array = (count == 0) ? array : array.Take(count);
+            return array.Select(Level);
+        }
+
+        private static Level Level(JArray value) {
+            var price = double.Parse(value[0].ToString());
+            var volume = double.Parse(value[1].ToString());
+
+            return new Level {
+                Price = price,
+                Volume = volume,
+            };
+        }
+
+        private static T As<T>(this JObject self, JsonSerializer serializer = null) {
+            return (T)(serializer ?? new JsonSerializer()).Deserialize<T>(new JTokenReader(self));
+        }
     }
 }
