@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace Bitstamp.Net.Http.Formatting {
 	internal class BitstampMediaTypeFormatter : JsonMediaTypeFormatter {
 		public BitstampMediaTypeFormatter() {
-			SerializerSettings.Converters.Add(new StringToDoubleConverter());
-			SerializerSettings.Converters.Add(new StringToDateTimeOffsetConverter());			
+			SerializerSettings.Converters.Add(new DoubleConverter());
+			SerializerSettings.Converters.Add(new DateTimeOffsetConverter());			
 		}
 
 		public override bool CanReadType(Type type) {

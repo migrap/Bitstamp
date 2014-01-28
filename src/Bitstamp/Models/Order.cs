@@ -11,15 +11,15 @@ namespace Bitstamp.Models {
         public int Type { get; set; }
         
         [JsonProperty("price")]
-        [JsonConverter(typeof(StringToDoubleConverter))]
+        [JsonConverter(typeof(DoubleConverter))]
         public double Price { get; set; }
 
         [JsonProperty("datetime")]
-        [JsonConverter(typeof(StringToDateTimeOffsetConverter))]
+        [JsonConverter(typeof(DateTimeOffsetConverter))]
         public DateTimeOffset Datetime { get; set; }
 
         [JsonProperty("amount")]
-        [JsonConverter(typeof(StringToDoubleConverter))]
+        [JsonConverter(typeof(DoubleConverter))]
         public double Amount { get; set; }
 
         public override string ToString() {

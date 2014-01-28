@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Bitstamp.Net.Http.Formatting {
-    class StringToDateTimeOffsetConverter :JsonConverter{
-        private static DateTimeOffset Epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
-        public StringToDateTimeOffsetConverter() {
+	public class DoubleConverter :JsonConverter{
+		public DoubleConverter(){
 		}
 
 		public override bool CanConvert(Type objectType) {
@@ -14,10 +13,10 @@ namespace Bitstamp.Net.Http.Formatting {
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
 			if (reader.TokenType == JsonToken.String)
 			{
-					var value = default(long);
+					var value = default(double);
 
-					if (long.TryParse((string)reader.Value, out value)){
-                        return Epoch.AddSeconds(value);						
+					if (double.TryParse((string)reader.Value, out value)){
+						return value;
 					}
 
 				throw new JsonReaderException(string.Format("Expected double, got {0}", reader.Value));
@@ -30,3 +29,5 @@ namespace Bitstamp.Net.Http.Formatting {
 		}
 	}
 }
+
+
